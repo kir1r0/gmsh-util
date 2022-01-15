@@ -20,21 +20,21 @@ class MeshFileParser {
         val tetrahedronElements = mutableListOf<Element>()
 
         for (i in lines.indices) {
-            when (lines[i]) {
-                "\$ParametricNodes" -> {
+            when {
+                lines[i] == "\$ParametricNodes" || lines[i] == "\$Nodes" -> {
                     parsingState.isParametricNodesParsing = true
                     logger.info("ParametricNodes: ${lines[i + 1]}")
                     continue
                 }
-                "\$EndParametricNodes" -> {
+                lines[i] == "\$EndParametricNodes" || lines[i] == "\$EndNodes" -> {
                     parsingState.isParametricNodesParsing = false
                 }
-                "\$Elements" -> {
+                lines[i] == "\$Elements" -> {
                     parsingState.isElementsParsing = true
                     logger.info("Elements: ${lines[i + 1]}")
                     continue
                 }
-                "\$EndElements" -> {
+                lines[i] == "\$EndElements" -> {
                     parsingState.isElementsParsing = false
                 }
             }

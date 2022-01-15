@@ -7,3 +7,5 @@ data class Element(val id: Int, val type: Int, val nodes: List<Int>)
 data class ParsedElement(val nodes: List<Node>, val elements: List<Element>)
 
 data class Vector3(val a: Double, val b: Double, val c: Double)
+
+data class VolumeAndInertiaMoment(val volume: Double, val moment: Double)

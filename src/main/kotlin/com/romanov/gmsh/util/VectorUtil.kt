@@ -16,4 +16,12 @@ object VectorUtil {
             vectors[2].a * vectors[1].b * vectors[0].c -
             vectors[0].a * vectors[2].b * vectors[1].c -
             vectors[1].a * vectors[0].b * vectors[2].c
+
+    fun findTetrahedronCenter(vectors: List<Vector3>): Node =
+        Node(
+            Int.MIN_VALUE,
+            Constant.CENTER_COEFFICIENT * (vectors[0].a + vectors[1].a + vectors[2].a),
+            Constant.CENTER_COEFFICIENT * (vectors[0].b + vectors[1].b + vectors[2].b),
+            Constant.CENTER_COEFFICIENT * (vectors[0].c + vectors[1].c + vectors[2].c),
+        )
 }

@@ -1,5 +1,6 @@
 package com.romanov.gmsh
 
+import com.romanov.gmsh.util.Constant.STEEL_DENSITY
 import org.slf4j.LoggerFactory
 import java.io.File
 
@@ -10,9 +11,17 @@ fun main() {
         val meshFile = File(meshFilePath)
         val meshFileParser = MeshFileParser()
         val parsedElement = meshFileParser.parseMeshFileVersion2(meshFile)
-        val volumeCalculator = VolumeCalculator()
-        val volume = volumeCalculator.calculateVolume(parsedElement)
-        logger.info("Volume is $volume")
+
+        val volumeAndMomentOfInertiaCalculator = VolumeAndMomentOfInertiaCalculator()
+
+        val volumeAndInertiaMoment = volumeAndMomentOfInertiaCalculator.calculateVolumeAndInertiaMoment(parsedElement)
+        logger.info("Volume is ${volumeAndInertiaMoment.volume} M^3")
+
+        val mass = (STEEL_DENSITY * volumeAndInertiaMoment.volume)
+        logger.info("Mass is $mass Kg")
+
+        val inertiaMoment = volumeAndInertiaMoment.moment
+        logger.info("Inertia moment is $inertiaMoment Kg/M^2")
     } catch (e: Exception) {
         logger.error("Something went wrong", e)
     } finally {
@@ -25,7 +34,7 @@ private fun getFilePath(): String {
     logger.info("Input mesh file path")
     val path = readLine()
     return if (path.isNullOrBlank()) {
-        "src/main/resources/mesh_2v"
+        "src/main/resources/crank.msh"
     } else {
         path
     }
